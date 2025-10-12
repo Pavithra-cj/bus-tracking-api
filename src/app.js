@@ -4,6 +4,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 
 import routeRoutes from "./modules/routes/route/routeRoutes.js";
+import busRoutes from "./modules/buses/route/busRoutes.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 
 dotenv.config();
@@ -21,6 +22,9 @@ app.get("/", (req, res) => {
 
 // Routes API
 app.use("/api/routes", routeRoutes);
+
+// Buses API
+app.use("/api/buses", busRoutes);
 
 // 404 handler for unknown routes
 app.use((req, res, next) => {
