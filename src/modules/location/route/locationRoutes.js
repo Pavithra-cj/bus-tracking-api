@@ -87,4 +87,32 @@ router.post(
   LocationController.updateBusLocation
 );
 
+/**
+ * @swagger
+ * /api/locations/history/{bus_id}:
+ *   get:
+ *     summary: Get location history of a specific bus for a given date
+ *     tags: [Locations]
+ *     parameters:
+ *       - in: path
+ *         name: bus_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: date
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "2025-10-12"
+ *     responses:
+ *       200:
+ *         description: Returns location history (chronological)
+ *       400:
+ *         description: Missing date query parameter
+ *       404:
+ *         description: No history found
+ */
+router.get("/history/:bus_id", LocationController.getBusHistory);
+
 export default router;
