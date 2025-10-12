@@ -1,5 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
+
 import routeRoutes from "./modules/routes/routes/routeRoutes.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 
@@ -7,6 +10,9 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+
+// Swagger documentation route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Base route
 app.get("/", (req, res) => {
@@ -28,4 +34,5 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📄 Swagger Docs: http://localhost:${PORT}/api-docs`);
 });
