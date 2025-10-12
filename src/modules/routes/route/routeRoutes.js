@@ -1,5 +1,9 @@
 import express from "express";
 import * as RouteController from "../controller/routeController.js";
+import {
+  verifyToken,
+  authorizeRoles,
+} from "../../../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -48,6 +52,8 @@ router.get("/:id", RouteController.getRouteById);
  *   post:
  *     summary: Create a new route
  *     tags: [Routes]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -77,8 +83,16 @@ router.get("/:id", RouteController.getRouteById);
  *         description: Route created
  *       400:
  *         description: Validation error
+ *       403:
+ *         description: Forbidden (requires admin role)
  */
-router.post("/", RouteController.createRoute);
+// router.post("/", RouteController.createRoute);
+router.post(
+  "/",
+  verifyToken,
+  authorizeRoles("admin"),
+  RouteController.createRoute
+);
 
 /**
  * @swagger
@@ -86,6 +100,8 @@ router.post("/", RouteController.createRoute);
  *   put:
  *     summary: Update an existing route
  *     tags: [Routes]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -114,8 +130,16 @@ router.post("/", RouteController.createRoute);
  *         description: Validation error
  *       404:
  *         description: Route not found
+ *       403:
+ *         description: Forbidden (requires admin role)
  */
-router.put("/:id", RouteController.updateRoute);
+// router.put("/:id", RouteController.updateRoute);
+router.put(
+  "/:id",
+  verifyToken,
+  authorizeRoles("admin"),
+  RouteController.updateRoute
+);
 
 /**
  * @swagger
@@ -123,6 +147,8 @@ router.put("/:id", RouteController.updateRoute);
  *   delete:
  *     summary: Delete a route by ID
  *     tags: [Routes]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -134,7 +160,15 @@ router.put("/:id", RouteController.updateRoute);
  *         description: Route deleted
  *       404:
  *         description: Route not found
+ *       403:
+ *         description: Forbidden (requires admin role)
  */
-router.delete("/:id", RouteController.deleteRoute);
+// router.delete("/:id", RouteController.deleteRoute);
+router.delete(
+  "/:id",
+  verifyToken,
+  authorizeRoles("admin"),
+  RouteController.deleteRoute
+);
 
 export default router;
