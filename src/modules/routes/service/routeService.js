@@ -1,4 +1,4 @@
-import * as RouteModel from "../models/route.js";
+import * as RouteModel from "../model/route.js";
 
 export const listRoutes = async () => {
   return await RouteModel.getAllRoutes();
