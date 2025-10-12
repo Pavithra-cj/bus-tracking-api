@@ -1,4 +1,4 @@
-import * as RouteService from "../services/routeService.js";
+import * as RouteService from "../service/routeService.js";
 import { routeSchema } from "../validation/routeValidation.js";
 
 export const getAllRoutes = async (req, res, next) => {
