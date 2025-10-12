@@ -1,46 +1,59 @@
 import * as RouteService from "../services/routeService.js";
+import { routeSchema } from "../validation/routeValidation.js";
 
-export const getAllRoutes = async (req, res) => {
+export const getAllRoutes = async (req, res, next) => {
   try {
     const routes = await RouteService.listRoutes();
     res.json(routes);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
-export const getRouteById = async (req, res) => {
+export const getRouteById = async (req, res, next) => {
   try {
     const route = await RouteService.getRoute(req.params.id);
     res.json(route);
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    next(err);
   }
 };
 
-export const createRoute = async (req, res) => {
+export const createRoute = async (req, res, next) => {
   try {
+    const { error } = routeSchema.validate(req.body);
+    if (error) {
+      error.statusCode = 400;
+      throw error;
+    }
+
     const newRoute = await RouteService.addRoute(req.body);
     res.status(201).json(newRoute);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 };
 
-export const updateRoute = async (req, res) => {
+export const updateRoute = async (req, res, next) => {
   try {
+    const { error } = routeSchema.validate(req.body);
+    if (error) {
+      error.statusCode = 400;
+      throw error;
+    }
+
     const updated = await RouteService.editRoute(req.params.id, req.body);
     res.json(updated);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 };
 
-export const deleteRoute = async (req, res) => {
+export const deleteRoute = async (req, res, next) => {
   try {
     await RouteService.removeRoute(req.params.id);
     res.json({ message: "Route deleted successfully" });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    next(err);
   }
 };
