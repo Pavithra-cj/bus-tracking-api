@@ -6,6 +6,7 @@ import swaggerSpec from "./config/swagger.js";
 import routeRoutes from "./modules/routes/route/routeRoutes.js";
 import busRoutes from "./modules/buses/route/busRoutes.js";
 import tripRoutes from "./modules/trips/route/tripRoutes.js";
+import authRoutes from "./modules/auth/route/authRoutes.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 
 dotenv.config();
@@ -29,6 +30,9 @@ app.use("/api/buses", busRoutes);
 
 // Trips API
 app.use("/api/trips", tripRoutes);
+
+// Auth API
+app.use("/api/auth", authRoutes);
 
 // 404 handler for unknown routes
 app.use((req, res, next) => {

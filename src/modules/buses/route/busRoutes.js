@@ -1,5 +1,9 @@
 import express from "express";
 import * as BusController from "../controller/busController.js";
+import {
+  verifyToken,
+  authorizeRoles,
+} from "../../../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -48,6 +52,8 @@ router.get("/:id", BusController.getBusById);
  *   post:
  *     summary: Create a new bus
  *     tags: [Buses]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -76,8 +82,10 @@ router.get("/:id", BusController.getBusById);
  *         description: Bus created
  *       400:
  *         description: Validation error
+ *       403:
+ *         description: Forbidden (requires admin role)
  */
-router.post("/", BusController.createBus);
+router.post("/", verifyToken, authorizeRoles("admin"), BusController.createBus);
 
 /**
  * @swagger
@@ -85,6 +93,8 @@ router.post("/", BusController.createBus);
  *   put:
  *     summary: Update a bus
  *     tags: [Buses]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -114,8 +124,15 @@ router.post("/", BusController.createBus);
  *         description: Validation error
  *       404:
  *         description: Bus not found
+ *       403:
+ *         description: Forbidden (requires admin or operator role)
  */
-router.put("/:id", BusController.updateBus);
+router.put(
+  "/:id",
+  verifyToken,
+  authorizeRoles("admin", "operator"),
+  BusController.updateBus
+);
 
 /**
  * @swagger
@@ -123,6 +140,8 @@ router.put("/:id", BusController.updateBus);
  *   delete:
  *     summary: Delete a bus by ID
  *     tags: [Buses]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -134,7 +153,14 @@ router.put("/:id", BusController.updateBus);
  *         description: Bus deleted
  *       404:
  *         description: Bus not found
+ *       403:
+ *         description: Forbidden (requires admin role)
  */
-router.delete("/:id", BusController.deleteBus);
+router.delete(
+  "/:id",
+  verifyToken,
+  authorizeRoles("admin"),
+  BusController.deleteBus
+);
 
 export default router;

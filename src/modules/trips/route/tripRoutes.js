@@ -1,5 +1,9 @@
 import express from "express";
 import * as TripController from "../controller/tripController.js";
+import {
+  verifyToken,
+  authorizeRoles,
+} from "../../../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -48,6 +52,8 @@ router.get("/:id", TripController.getTripById);
  *   post:
  *     summary: Create a new trip
  *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -82,8 +88,15 @@ router.get("/:id", TripController.getTripById);
  *         description: Trip created
  *       400:
  *         description: Validation error
+ *       403:
+ *         description: Forbidden (requires admin or operator role)
  */
-router.post("/", TripController.createTrip);
+router.post(
+  "/",
+  verifyToken,
+  authorizeRoles("admin", "operator"),
+  TripController.createTrip
+);
 
 /**
  * @swagger
@@ -91,6 +104,8 @@ router.post("/", TripController.createTrip);
  *   put:
  *     summary: Update a trip
  *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -110,8 +125,15 @@ router.post("/", TripController.createTrip);
  *         description: Validation error
  *       404:
  *         description: Trip not found
+ *       403:
+ *         description: Forbidden (requires admin or operator role)
  */
-router.put("/:id", TripController.updateTrip);
+router.put(
+  "/:id",
+  verifyToken,
+  authorizeRoles("admin", "operator"),
+  TripController.updateTrip
+);
 
 /**
  * @swagger
@@ -119,6 +141,8 @@ router.put("/:id", TripController.updateTrip);
  *   delete:
  *     summary: Delete a trip by ID
  *     tags: [Trips]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -130,7 +154,14 @@ router.put("/:id", TripController.updateTrip);
  *         description: Trip deleted
  *       404:
  *         description: Trip not found
+ *       403:
+ *         description: Forbidden (requires admin role)
  */
-router.delete("/:id", TripController.deleteTrip);
+router.delete(
+  "/:id",
+  verifyToken,
+  authorizeRoles("admin"),
+  TripController.deleteTrip
+);
 
 export default router;
