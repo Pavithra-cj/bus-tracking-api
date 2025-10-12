@@ -38,3 +38,21 @@ export const getAllLiveLocations = async () => {
   );
   return rows;
 };
+
+export const addToHistory = async (bus_id, latitude, longitude) => {
+  await db.query(
+    "INSERT INTO location_history (bus_id, latitude, longitude) VALUES (?, ?, ?)",
+    [bus_id, latitude, longitude]
+  );
+};
+
+export const getBusHistory = async (bus_id, date) => {
+  const [rows] = await db.query(
+    `SELECT bus_id, latitude, longitude, recorded_at
+     FROM location_history
+     WHERE bus_id = ? AND DATE(recorded_at) = ?
+     ORDER BY recorded_at ASC`,
+    [bus_id, date]
+  );
+  return rows;
+};

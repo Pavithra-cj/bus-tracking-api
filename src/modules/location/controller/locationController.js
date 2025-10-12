@@ -36,3 +36,18 @@ export const getAllLocations = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getBusHistory = async (req, res, next) => {
+  try {
+    const { date } = req.query;
+    if (!date)
+      return res
+        .status(400)
+        .json({ message: "Date query parameter is required (YYYY-MM-DD)" });
+
+    const data = await LocationService.getBusHistory(req.params.bus_id, date);
+    res.json({ bus_id: req.params.bus_id, date, history: data });
+  } catch (err) {
+    next(err);
+  }
+};
