@@ -7,6 +7,7 @@ import routeRoutes from "./modules/routes/route/routeRoutes.js";
 import busRoutes from "./modules/buses/route/busRoutes.js";
 import tripRoutes from "./modules/trips/route/tripRoutes.js";
 import authRoutes from "./modules/auth/route/authRoutes.js";
+import locationRoutes from "./modules/location/route/locationRoutes.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 
 dotenv.config();
@@ -33,6 +34,9 @@ app.use("/api/trips", tripRoutes);
 
 // Auth API
 app.use("/api/auth", authRoutes);
+
+// Location API
+app.use("/api/locations", locationRoutes);
 
 // 404 handler for unknown routes
 app.use((req, res, next) => {
