@@ -61,11 +61,15 @@ router.get("/:id", RouteController.getRouteById);
  *           schema:
  *             type: object
  *             required:
+ *               - name
  *               - start_location
  *               - end_location
  *               - distance_km
  *               - estimated_time
  *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Route 1
  *               start_location:
  *                 type: string
  *                 example: Colombo
