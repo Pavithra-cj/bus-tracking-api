@@ -18,9 +18,9 @@ app.use(express.json());
 // Swagger documentation route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Base route
+// Base route - redirect to Swagger UI
 app.get("/", (req, res) => {
-  res.send("🚍 Bus Tracking API is running...");
+  res.redirect("/api-docs");
 });
 
 // Routes API
