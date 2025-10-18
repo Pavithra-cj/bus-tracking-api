@@ -4,7 +4,7 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "68D Bus Tracking System API",
+      title: "Bus Tracking System API",
       version: "1.0.0",
       description:
         "RESTful API documentation for the Real-Time Bus Tracking System (NTC)",
