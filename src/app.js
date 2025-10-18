@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 import swaggerSpec from "./config/swagger.js";
 
 import routeRoutes from "./modules/routes/route/routeRoutes.js";
@@ -15,8 +16,14 @@ const app = express();
 
 app.use(express.json());
 
-// Swagger documentation route
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(cors());
+
+// Swagger documentation route.
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, { explorer: true })
+);
 
 // Base route
 app.get("/", (req, res) => {

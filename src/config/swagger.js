@@ -4,15 +4,15 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "🚍 Bus Tracking System API",
+      title: "68D Bus Tracking System API",
       version: "1.0.0",
       description:
         "RESTful API documentation for the Real-Time Bus Tracking System (NTC)",
     },
     servers: [
       {
-        url: "http://localhost:3000",
-        description: "Local Server",
+        url: process.env.BASE_URL || "/",
+        description: "API server",
       },
     ],
     components: {
