@@ -16,10 +16,8 @@ if (process.env.DB_SOCKET) {
   poolConfig.socketPath = process.env.DB_SOCKET;
   console.log("Using DB socket path:", process.env.DB_SOCKET);
 } else {
-  // poolConfig.host = process.env.DB_HOST || "127.0.0.1";
-  // poolConfig.port = process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306;
-  poolConfig.host = "34.69.99.62";
-  poolConfig.port = 3306;
+  poolConfig.host = process.env.DB_HOST || "127.0.0.1";
+  poolConfig.port = process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306;
   console.log(`Using DB host: ${poolConfig.host}, port: ${poolConfig.port}`);
 }
 
