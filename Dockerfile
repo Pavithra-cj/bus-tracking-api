@@ -4,6 +4,9 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /usr/src/app
 
+# Set production environment
+ENV NODE_ENV=production
+
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
@@ -13,8 +16,8 @@ RUN npm install --production
 # Copy rest of the app
 COPY . .
 
-# Expose port
-EXPOSE 4001
+# Expose the port the app listens on (default 3000)
+EXPOSE 3000
 
-# Start the app
-CMD ["node", "src/app.js"]
+# Start the app using the npm script
+CMD ["npm", "start"]
